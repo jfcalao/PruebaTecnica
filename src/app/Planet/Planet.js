@@ -1,10 +1,22 @@
+const { planetAPIToPlanetDB } = require("../mappers/planetMapper");
+
 class Planet {
-    constructor(id){
-        throw new Error('To be implemented');
+    constructor(id, app){
+        this.id = id;
+        this.app = app;
     }
 
     async init(){
-        throw new Error('To be implemented');
+        let planetDB = await this.app.db.swPlanet.findByPk(this.id);
+        if (!planetDB) {
+            const planetSWAPI = await this.app.swapiFunctions.genericRequest(
+                process.env.SWAPI_URL + `planets/${this.id}`,
+                'GET'
+            );
+            planetDB = planetAPIToPlanetDB(planetSWAPI);
+        }
+        this.name = planetDB.name;
+        this.gravity = planetDB.gravity;
     }
 
     getName() {
@@ -15,3 +27,4 @@ class Planet {
         return this.gravity;
     }
 }
+module.exports = Planet

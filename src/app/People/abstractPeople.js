@@ -1,4 +1,4 @@
-const { peopleAPIToPeopleDB } = require("../mappers/peopleMappers");
+const { peopleAPIToPeopleDB } = require("../mappers/peopleMapper");
 
 class AbstractPeople {
 
