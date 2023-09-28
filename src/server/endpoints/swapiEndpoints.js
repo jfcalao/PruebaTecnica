@@ -2,17 +2,20 @@ const { peopleFactory } = require('../../app/People');
 const { Planet } = require('../../app/Planet');
 
 const _isWookieeFormat = (req) => {
-    if(req.query.format && req.query.format == 'wookiee'){
+    if (req.query.format && req.query.format == 'wookiee') {
         return true;
     }
     return false;
-}
-
+};
 
 const applySwapiEndpoints = (server, app) => {
-
     server.get('/hfswapi/test', async (req, res) => {
-        const data = await app.swapiFunctions.genericRequest('https://swapi.dev/api/', 'GET', null, true);
+        const data = await app.swapiFunctions.genericRequest(
+            'https://swapi.dev/api/',
+            'GET',
+            null,
+            true
+        );
         res.send(data);
     });
 
@@ -26,7 +29,7 @@ const applySwapiEndpoints = (server, app) => {
             height: people.getHeight(),
             homeworldName: people.getHomeworldName(),
             homeworldId: people.getHomeworldId(),
-        }
+        };
         res.status(200).json(response);
     });
 
@@ -36,8 +39,8 @@ const applySwapiEndpoints = (server, app) => {
         await planet.init();
         const response = {
             name: planet.getName(),
-            gravity: planet.getGravity()
-        }
+            gravity: planet.getGravity(),
+        };
         res.status(200).json(response);
     });
 
@@ -45,17 +48,18 @@ const applySwapiEndpoints = (server, app) => {
         const MAX_PEOPLE_SWAPI = 82;
         const MAX_PLANETS_SWAPI = 60;
         const peopleRandomId = Math.floor(Math.random() * MAX_PEOPLE_SWAPI) + 1;
-        const planetRandomId = Math.floor(Math.random() * MAX_PLANETS_SWAPI) + 1;
+        const planetRandomId =
+            Math.floor(Math.random() * MAX_PLANETS_SWAPI) + 1;
         const people = await peopleFactory(peopleRandomId, '', app);
         const peopleWeight = await people.getWeightOnPlanet(planetRandomId);
         res.send({ peopleWeight });
     });
 
-    server.get('/hfswapi/getLogs',async (req, res) => {
-        const data = await app.db.logging.findAll();
+    server.get('/hfswapi/getLogs', async (req, res) => {
+        const attributes = ['ip', 'header', 'action'];
+        const data = await app.db.logging.findAll({ attributes });
         res.send(data);
     });
-
-}
+};
 
 module.exports = applySwapiEndpoints;
