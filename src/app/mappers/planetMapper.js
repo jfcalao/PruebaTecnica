@@ -1,5 +1,4 @@
 const planetAPIToPlanetDB = (planetAPI) => {
-  // console.log({planetAPI})
   return {
       id: planetAPI.id,
       name: planetAPI.name,

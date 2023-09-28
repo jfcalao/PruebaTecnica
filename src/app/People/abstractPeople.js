@@ -56,12 +56,6 @@ class AbstractPeople {
 
         const planet = new Planet(planetId, this.app);
         await planet.init();
-        console.log({
-            mass: this.mass,
-            gravity: planet.getGravity(),
-            planet: planet.id,
-            people: this.id,
-        });
         return this.app.swapiFunctions.getWeightOnPlanet(
             this.mass,
             planet.getGravity()
