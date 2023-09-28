@@ -13,7 +13,7 @@ class Planet {
                 process.env.SWAPI_URL + `planets/${this.id}`,
                 'GET'
             );
-            planetDB = planetAPIToPlanetDB(planetSWAPI);
+            planetDB = planetAPIToPlanetDB(this.id, planetSWAPI);
             await this.app.db.swPlanet.create(planetDB);
         }
         this.name = planetDB.name;
