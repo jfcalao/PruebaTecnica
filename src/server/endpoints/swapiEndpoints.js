@@ -21,7 +21,7 @@ const applySwapiEndpoints = (server, app) => {
 
     server.get('/hfswapi/getPeople/:id', async (req, res) => {
         const peopleId = req.params.id;
-        const lang = _isWookieeFormat(req) ? 'wookie' : '';
+        const lang = _isWookieeFormat(req) ? 'wookiee' : '';
         const people = await peopleFactory(peopleId, lang, app);
         const response = {
             name: people.getName(),
