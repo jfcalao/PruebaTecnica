@@ -17,7 +17,12 @@ class AbstractPeople {
                 process.env.SWAPI_URL + `people/${this.id}`,
                 'GET'
             );
-            peopleDB = await peopleAPIToPeopleDB(this.id, peopleSWAPI, this.app);
+            peopleDB = await peopleAPIToPeopleDB(
+                this.id,
+                peopleSWAPI,
+                this.app
+            );
+            await this.app.db.swPeople.create(peopleDB);
         }
         this.name = peopleDB.name;
         this.mass = peopleDB.mass;
