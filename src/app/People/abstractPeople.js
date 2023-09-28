@@ -1,7 +1,7 @@
-const { peopleAPIToPeopleDB } = require("../mappers/peopleMapper");
+const { Planet } = require('../Planet');
+const { peopleAPIToPeopleDB } = require('../mappers/peopleMapper');
 
 class AbstractPeople {
-
     constructor(id, app) {
         this.id = id;
         this.app = app;
@@ -10,7 +10,7 @@ class AbstractPeople {
         }
     }
 
-    async init(){
+    async init() {
         let peopleDB = await this.app.db.swPeople.findByPk(this.id);
         if (!peopleDB) {
             const peopleSWAPI = await this.app.swapiFunctions.genericRequest(
@@ -27,7 +27,7 @@ class AbstractPeople {
     }
 
     getId() {
-       return this.id;
+        return this.id;
     }
 
     getName() {
@@ -50,8 +50,22 @@ class AbstractPeople {
         return this.homeworldId;
     }
 
-    getWeightOnPlanet(planetId){
-        throw new Error('To be implemented');
+    async getWeightOnPlanet(planetId) {
+        if (Number(planetId) === Number(this.homeworldId))
+            throw new Error('Is the same planet');
+
+        const planet = new Planet(planetId, this.app);
+        await planet.init();
+        console.log({
+            mass: this.mass,
+            gravity: planet.getGravity(),
+            planet: planet.id,
+            people: this.id,
+        });
+        return this.app.swapiFunctions.getWeightOnPlanet(
+            this.mass,
+            planet.getGravity()
+        );
     }
 }
 module.exports = AbstractPeople;
