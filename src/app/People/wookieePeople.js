@@ -1,13 +1,14 @@
 const AbstractPeople = require('./abstractPeople');
 const { Planet } = require('../Planet');
+const { swapiFunctions } = require('..');
 
 class WookieePeople extends AbstractPeople {
-    constructor(id, app) {
-        super(id, app);
+    constructor(id) {
+        super(id);
     }
 
     async init() {
-        const peopleSWAPI = await this.app.swapiFunctions.genericRequest(
+        const peopleSWAPI = await swapiFunctions.genericRequest(
             process.env.SWAPI_URL + `people/${this.id}?format=wookiee`,
             'GET'
         );
@@ -26,7 +27,7 @@ class WookieePeople extends AbstractPeople {
                 /\/akanrawhwoaoc\/(\d+)/
             )?.[1]
         );
-        const planet = new Planet(planetID, this.app);
+        const planet = new Planet(planetID);
         await planet.init();
         return {
             id: this.id,

@@ -1,8 +1,8 @@
 const { Planet } = require("../Planet");
 
-const peopleAPIToPeopleDB = async (id, peopleAPI, app) => {
+const peopleAPIToPeopleDB = async (id, peopleAPI) => {
     const planetID = Number(peopleAPI.homeworld.match(/\/planets\/(\d+)/)?.[1]);
-    const planet = new Planet(planetID, app);
+    const planet = new Planet(planetID);
     await planet.init();
     return {
         id,

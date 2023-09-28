@@ -1,12 +1,12 @@
 const WookieePeople = require('./wookieePeople');
 const CommonPeople = require('./CommonPeople');
 
-const peopleFactory = async (id, lang, app) => {
+const peopleFactory = async (id, lang) => {
     let people = null;
     if (lang == 'wookiee'){
-        people = new WookieePeople(id, app);
+        people = new WookieePeople(id);
     } else {
-        people = new CommonPeople(id, app);
+        people = new CommonPeople(id);
     }
     await people.init();
     return people;

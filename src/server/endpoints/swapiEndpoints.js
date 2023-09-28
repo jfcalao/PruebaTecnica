@@ -22,7 +22,7 @@ const applySwapiEndpoints = (server, app) => {
     server.get('/hfswapi/getPeople/:id', async (req, res) => {
         const peopleId = req.params.id;
         const lang = _isWookieeFormat(req) ? 'wookiee' : '';
-        const people = await peopleFactory(peopleId, lang, app);
+        const people = await peopleFactory(peopleId, lang);
         const response = {
             name: people.getName(),
             mass: people.getMass(),
@@ -35,7 +35,7 @@ const applySwapiEndpoints = (server, app) => {
 
     server.get('/hfswapi/getPlanet/:id', async (req, res) => {
         const planetId = req.params.id;
-        const planet = new Planet(planetId, app);
+        const planet = new Planet(planetId);
         await planet.init();
         const response = {
             name: planet.getName(),
@@ -50,7 +50,7 @@ const applySwapiEndpoints = (server, app) => {
         const peopleRandomId = Math.floor(Math.random() * MAX_PEOPLE_SWAPI) + 1;
         const planetRandomId =
             Math.floor(Math.random() * MAX_PLANETS_SWAPI) + 1;
-        const people = await peopleFactory(peopleRandomId, '', app);
+        const people = await peopleFactory(peopleRandomId, '');
         const peopleWeight = await people.getWeightOnPlanet(planetRandomId);
         res.send({ peopleWeight });
     });
